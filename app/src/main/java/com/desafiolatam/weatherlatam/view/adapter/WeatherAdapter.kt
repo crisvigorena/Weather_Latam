@@ -3,9 +3,12 @@ package com.desafiolatam.weatherlatam.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.desafiolatam.weatherlatam.R
 import com.desafiolatam.weatherlatam.databinding.ItemWeatherBinding
 import com.desafiolatam.weatherlatam.extension.toFahrenheit
 import com.desafiolatam.weatherlatam.model.WeatherDto
+import com.desafiolatam.weatherlatam.R.id.city_name as rIdCity_name
 
 class WeatherAdapter(
     var weatherList: List<WeatherDto>,
@@ -26,6 +29,8 @@ class WeatherAdapter(
         holder.onBind(weatherList[position])
 
     override fun getItemCount(): Int = weatherList.size
+
+
 
     inner class WeatherViewHolder(private val itemBinding: ItemWeatherBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {

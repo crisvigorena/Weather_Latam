@@ -1,5 +1,7 @@
 package com.desafiolatam.weatherlatam.model
 
+
+
 data class WeatherDto(
     val id: Int,
     val currentTemp: Double,
