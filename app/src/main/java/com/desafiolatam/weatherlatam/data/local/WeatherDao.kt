@@ -12,22 +12,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherDao {
 
-    // Ejemplo
-   // @Query("DELETE FROM weather")
-   /* suspend fun clearAll()
-
-    @Query("SELECT * FROM weather")
-     fun getAll(): Flow<List<WeatherDto>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertData(weatherEntity: WeatherEntity)
-
-    @Query("SELECT * FROM weather where ID")
-    fun getWeatherDataById(): Flow<List<WeatherDto>>
-}
-*/
-
-
     @Query("SELECT * FROM weather")
     fun getWeatherData(): Flow<List<WeatherEntity>>
 
@@ -41,5 +25,5 @@ interface WeatherDao {
     suspend fun updateCityName(weatherEntity: WeatherEntity)
 
     @Query("DELETE FROM weather")
-    suspend fun clearAll()
+    fun clearAll()
 }
