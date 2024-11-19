@@ -30,110 +30,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-
-/*
-class HomeFragment : Fragment() {
-
-    private lateinit var adapter: WeatherAdapter
-    private lateinit var tempUnit: String
-
-    private val viewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory((activity?.application as WeatherApplication).repository)
-    }
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        sharedPref.getString(getString(R.string.settings_temperature_unit), CELSIUS)?.let {
-            tempUnit = it
-        }
-
-
-        adapter = WeatherAdapter(
-            weatherList = emptyList(),
-            inCelsius = tempUnit == CELSIUS
-        )
-        getWeatherData()
-        initRecyclerView()
-        navigateToDetails()
-        navigateToSettings()
-        agregarTarea()
-    }
-
-    private fun agregarTarea() {
-        var task: WeatherEntity = WeatherEntity(0,
-            3.1,//    val currentTemp: Double,
-            1.2,//    val maxTemp: Double,
-            2.4,//   val minTemp: Double,
-            3.9,//  val pressure: Double,
-            3.3,// val humidity: Double,
-            1.9,//val windSpeed: Double,
-            2230,//val sunrise: Long,
-            3351,//val sunset: Long,
-            "haawai"
-        )//val cityName: String,)
-        //llamando a couroutine
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.addTask(task)
-        }
-    }
-
-    private fun getWeatherData() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.weatherListStateFlow.collect {
-                adapter.weatherList = it
-                initRecyclerView()
-            }
-        }
-    }
-
-    private fun initRecyclerView() {
-        binding.cityName.text ="vigorena"
-        binding.rvWeather.layoutManager = LinearLayoutManager(context)
-        binding.rvWeather.adapter = adapter
-    }
-
-
-    private fun navigateToDetails() {
-        adapter.onClick = {
-            val bundle = bundleOf(ITEM_ID to it)
-                findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
-
-        }
-
-    }
-
-        private fun navigateToSettings() {
-            binding.btnSettings.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
-            }
-        }
-
-        override fun onDestroy() {
-            super.onDestroy()
-            _binding = null
-        }
-    }
-
-
-*/
-
-
-
-
-
 class HomeFragment : Fragment() {
 
     private lateinit var adapter: WeatherAdapter
@@ -199,16 +95,6 @@ class HomeFragment : Fragment() {
 
 
 
-    /*
-    private fun populateRecyclerView() {
-        lifecycleScope.launchWhenCreated {
-           viewModel.insertData()
-
-            if (isFirstTimeRunning())viewModel.insertData()
-        }
-    }
-*/
-
     @SuppressLint("NotifyDataSetChanged")
     private fun getWeatherData() {
         lifecycleScope.launchWhenCreated {
@@ -221,17 +107,7 @@ class HomeFragment : Fragment() {
                         adapter.inCelsius = tempUnit == CELSIUS
                         adapter.run { notifyDataSetChanged() }
 
-
-                        /* private fun getWeatherData() {
-                             lifecycleScope.launchWhenCreated {
-                                 viewModel.getWeather().collectLatest {
-                                         list ->
-                                     if(!list.isNullOrEmpty()) {
-                                         binding.cityName.text = list.last().cityName
-                                         adapter.weatherList = list
-                                         adapter.inCelsius = tempUnit == CELSIUS
-                                         adapter.notifyDataSetChanged()
-                          */           }
+         }
             }
         }
     }
@@ -253,10 +129,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
     }
-
-    //override fun onDestroyView() {
-      //  super.onDestroyView()
-      //  _binding = null // Liberar la referencia en el momento correcto
 
 
 
