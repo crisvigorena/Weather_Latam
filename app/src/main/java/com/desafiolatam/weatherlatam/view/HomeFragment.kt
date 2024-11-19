@@ -1,5 +1,6 @@
 package com.desafiolatam.weatherlatam.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ import com.desafiolatam.weatherlatam.view.viewmodel.WeatherViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 
@@ -185,24 +187,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun populateRecyclerView() {
         lifecycleScope.launchWhenCreated {
-            viewModel.insertData()
-
-            if (isFirstTimeRunning()) viewModel.insertData()
+            if (isFirstTimeRunning()) {
+                viewModel.insertData()
+            }
         }
     }
 
+
+
+
+    /*
+    private fun populateRecyclerView() {
+        lifecycleScope.launchWhenCreated {
+           viewModel.insertData()
+
+            if (isFirstTimeRunning())viewModel.insertData()
+        }
+    }
+*/
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun getWeatherData() {
         lifecycleScope.launchWhenCreated {
-            viewModel.getWeather().collectLatest {
-                    list ->
-                if(!list.isNullOrEmpty()) {
-                    binding.cityName.text = list.last().cityName
-                    adapter.weatherList = list
-                    adapter.inCelsius = tempUnit == CELSIUS
-                    adapter.notifyDataSetChanged()
-                }
+            viewModel.getWeather()
+                // Evita emisiones redundantes
+                .collectLatest { list ->
+                    if (!list.isNullOrEmpty()) {
+                        binding.cityName.text = list.last().cityName
+                        adapter.weatherList = list
+                        adapter.inCelsius = tempUnit == CELSIUS
+                        adapter.run { notifyDataSetChanged() }
+
+
+                        /* private fun getWeatherData() {
+                             lifecycleScope.launchWhenCreated {
+                                 viewModel.getWeather().collectLatest {
+                                         list ->
+                                     if(!list.isNullOrEmpty()) {
+                                         binding.cityName.text = list.last().cityName
+                                         adapter.weatherList = list
+                                         adapter.inCelsius = tempUnit == CELSIUS
+                                         adapter.notifyDataSetChanged()
+                          */           }
             }
         }
     }
@@ -225,8 +254,17 @@ class HomeFragment : Fragment() {
         }
     }
 
+    //override fun onDestroyView() {
+      //  super.onDestroyView()
+      //  _binding = null // Liberar la referencia en el momento correcto
+
+
+
     override fun onDestroy() {
         super.onDestroy()
+        super.onDestroyView()
         _binding = null
     }
 }
+
+
